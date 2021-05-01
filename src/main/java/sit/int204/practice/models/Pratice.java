@@ -11,13 +11,22 @@ import javax.persistence.Table;
 public class Pratice {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String Code;
+	
 	@Column (name = "Name")
 	private String Name;
 	@Column (name = "`Desc`")
 	private String Desc;
 	
+	public Pratice () {
+		
+	}
+	
+	public Pratice(String Name, String Desc,String Code) {
+		this.Name = Name;
+		this.Desc = Desc;
+		this.Code = Code;
+	}
 	
 	public String getCode() {
 	    return Code;
@@ -34,6 +43,9 @@ public class Pratice {
 	
 	public void setDesc(String Desc) {
 		this.Desc = Desc;	
+	}
+	public void setCode(String Code) {
+		this.Code = Code;	
 	}
 	
 	@Override
