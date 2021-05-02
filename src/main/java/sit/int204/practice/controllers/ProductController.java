@@ -1,89 +1,68 @@
 package sit.int204.practice.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 
 import java.util.List;
 
-@Controller
+
+@CrossOrigin(origins = {"http://localhost:8080"})
+@RestController
 public class ProductController {
 	@Autowired
-	private ProductRepository productRepository;
-
-	@RequestMapping("/product")
-	public String product(Model model) {
-		model.addAttribute("products", productRepository.findAll());
-		return "product";
-	}
-
-	@RequestMapping("/productWithPage")
-	public String productWithPage(
-			@RequestParam(defaultValue = "0") Integer pageNo,
-			@RequestParam(defaultValue = "5") Integer pageSize,
-			@RequestParam(defaultValue = "prodPrice") String sortBy,
-			Model model) {
-		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy) );
-		Page<Product> pageResult = productRepository.findAll(pageable);
-		model.addAttribute("products", pageResult.getContent());
-		return "product";
-	}
-
-	@RequestMapping("/show/{id}")
-	public String show(@PathVariable Long id, Model model) {
-		model.addAttribute("product", productRepository.findById(id).orElse(null));
-		return "show";
-	}
-
-	@RequestMapping("/create")
-	public String create(Model model) {
-		return "create";
-	}
-
-	@RequestMapping("/save")
-	public String save(Product product, Model model) {
-		productRepository.save(product);
-		model.addAttribute("product", product);
-		return "redirect:/show/" + product.getId();
-	}
-
-	@RequestMapping("/delete")
-	public String delete(@RequestParam Long id, Model model) {
-		productRepository.deleteById(id);
-		return "redirect:/product";
-	}
-	@RequestMapping("/edit/{id}")
-	public String edit(@PathVariable Long id, Model model) {
-		model.addAttribute("product", productRepository.findById(id).orElse(null));
-		return "edit";
-	}
-
-	@RequestMapping("/update")
-	public String update(@RequestParam Long id, @RequestParam String prodName, @RequestParam String prodDesc, @RequestParam Double prodPrice, @RequestParam String prodImage) {
-		Product product = productRepository.findById(id).orElse(null);
-		product.setProdName(prodName);
-		product.setProdDesc(prodDesc);
-		product.setProdImage(prodImage);
-		product.setProdPrice(prodPrice);
-		productRepository.save(product);
-
-		return "redirect:/show/" + product.getId();
-	}
-	@RequestMapping("/price")
-	public String findByPrice(@RequestParam(defaultValue = "0") Double lower, @RequestParam(defaultValue = "100000") Double upper, Model model) {
-		List<Product> products = productRepository.findByProdPriceBetween(lower,upper);
-		model.addAttribute("products", products);
-		return "product";
-	}
+	ProductRepository productrepository;
+	
+	 @GetMapping("/Product/{product_id}")
+	    public Product showProduct(@PathVariable long product_id) {
+	        return productrepository.findById(product_id).orElse(null);
+	    }
+	 
+	 @GetMapping("/Product")
+	    public List<Product> allProduct() {
+	        return productrepository.findAll(PageRequest.of(0,12)).getContent();
+	    }
+	 @DeleteMapping("/Product/delete/{product_id}")
+	    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable long product_id) {
+		 productrepository.deleteById(product_id);
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
+	 
+	 @PutMapping("/Product/{product_id}")
+	 	public ResponseEntity<Product> replaceProduct(@RequestBody Product newproduct, @PathVariable(value = "product_id") long product_id) {
+		
+		 Product product = productrepository.findById(product_id).orElseThrow(); 
+		 product.setProduct_Name(newproduct.getProduct_Name());
+		 product.setDescription(newproduct.getDescription());
+		 product.setPrice(newproduct.getPrice());
+		 product.setDate(newproduct.getDate());
+		 product.setPath(newproduct.getPath());
+		 final Product updateid = productrepository.save(product);
+		 return ResponseEntity.ok(updateid);	    
+	 }
+	 
+	 @PostMapping("/Product")
+	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+	   
+		 Product _product = productrepository.save(new Product(product.getProduct_id(),product.getProduct_Name(),product.getDescription(),product.getPrice(),product.getDate(),product.getPath()));
+	      return new ResponseEntity<>(_product, HttpStatus.CREATED);
+	    
+	  }
+	 
+	 
+	
+	
+	
 }
-
