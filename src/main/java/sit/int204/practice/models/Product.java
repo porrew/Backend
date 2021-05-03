@@ -1,9 +1,16 @@
 package sit.int204.practice.models;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "Product")
@@ -25,6 +32,12 @@ public class Product {
 	
 	@Column (name = "Path")
 	private int Path;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "Have",
+		joinColumns = { @JoinColumn(name = "Product_Product_id")},
+		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})
+	private Set<Color> tags = new HashSet<>();
 	
 	public Product () {
 		
