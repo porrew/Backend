@@ -1,7 +1,10 @@
 package sit.int204.practice.models;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,6 +16,8 @@ public class Brand {
 	@Column (name = "Brand_Name")
 	private String Brand_Name;
 	
+
+    
 	public Brand() {
 		
 	}

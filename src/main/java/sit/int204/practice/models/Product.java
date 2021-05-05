@@ -37,7 +37,7 @@ public class Product {
 	@JoinTable(name = "Have",
 		joinColumns = { @JoinColumn(name = "Product_Product_id")},
 		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})
-	private Set<Color> tags = new HashSet<>();
+	private Set<Color> colors = new HashSet<>();
 	
 	public Product () {
 		

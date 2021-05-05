@@ -2,10 +2,9 @@ package sit.int204.practice.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -19,8 +18,8 @@ public class Color {
 	@Column (name = "Color_Name")
 	private String Color_Name;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "Color")
-	private Set<Product> posts = new HashSet<>();
+	@ManyToMany(mappedBy = "colors")
+	private Set<Product> products = new HashSet<>();
 	
 	public Color () {
 		
