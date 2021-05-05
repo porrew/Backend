@@ -7,5 +7,5 @@ import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Product;
 
 public interface ProductRepository extends JpaRepository<Product , Long> {
-	List<Product> findByBrand(Brand brand);
+	public List<Product> findByBrandId(Long Brand);
 }

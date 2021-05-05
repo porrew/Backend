@@ -22,6 +22,7 @@ import javax.persistence.JoinColumn;
 @Table(name = "Product")
 public class Product {
 	@Id
+	@Column (name = "Product_id")
 	private Long Product_id;
 	
 	@Column (name = "Product_Name")
@@ -46,9 +47,8 @@ public class Product {
 		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})
 	private Set<Color> colors = new HashSet<>();
 	
-	 @OneToOne(fetch = FetchType.LAZY,
-	            cascade =  CascadeType.ALL) 
-	 @JoinColumn(name= "brand_brand_id")
+	 @OneToOne(cascade =  CascadeType.PERSIST) 
+	 @JoinColumn(name= "Brand_Brand_Id")
 	private Brand brand;
 
 	
@@ -114,8 +114,6 @@ public class Product {
 		Path = path;
 	}
 	
-	
-
 	public Brand getBrand() {
 		return brand;
 	}

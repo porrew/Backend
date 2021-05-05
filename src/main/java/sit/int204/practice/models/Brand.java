@@ -17,37 +17,33 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Brand")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","product"})
+
 public class Brand {
 	
-	 @OneToMany(cascade = CascadeType.ALL)
-	 @JoinColumn(name = "Brand_Brand_id")
-    List <Product> product = new ArrayList <> ();
+
 	
 	@Id
-	private Long Brand_id;
+	@Column (name = "Brand_id")
+	private Long id;
 	
 	@Column (name = "Brand_Name")
 	private String Brand_Name;
-	
-	
-    
+		
 	public Brand() {
 		
 	}
 	
 	public Brand(Long brand_id, String brand_Name) {
-		super();
-		Brand_id = brand_id;
+		id = brand_id;
 		Brand_Name = brand_Name;
 	}
 
 	public Long getBrand_id() {
-		return Brand_id;
+		return id;
 	}
 
 	public void setBrand_id(Long brand_id) {
-		Brand_id = brand_id;
+		id = brand_id;
 	}
 
 	public String getBrand_Name() {
@@ -60,17 +56,10 @@ public class Brand {
 
 	
 
-	public List<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(List<Product> product) {
-		this.product = product;
-	}
 
 	@Override
 	public String toString() {
-		return "Brand [product=" + ", Brand_id=" + Brand_id + ", Brand_Name=" + Brand_Name + "]";
+		return "Brand [product=" + ", Brand_id=" + id + ", Brand_Name=" + Brand_Name + "]";
 	}
 
 	
