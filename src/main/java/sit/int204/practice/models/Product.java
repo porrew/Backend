@@ -9,7 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -33,23 +39,31 @@ public class Product {
 	@Column (name = "Path")
 	private int Path;
 	
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "Have",
 		joinColumns = { @JoinColumn(name = "Product_Product_id")},
 		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})
 	private Set<Color> colors = new HashSet<>();
 	
+	 @OneToOne(fetch = FetchType.LAZY,
+	            cascade =  CascadeType.ALL) 
+	 @JoinColumn(name= "brand_brand_id")
+	private Brand brand;
+
+	
 	public Product () {
 		
 	}
 	
 	public Product(Long product_id, String product_Name, String description, int price, String date, int path) {
-		Product_id = product_id;
-		Product_Name = product_Name;
-		Desc = description;
-		Price = price;
-		Date = date;
-		Path = path;
+		this.Product_id = product_id;
+		this.Product_Name = product_Name;
+		this.Desc = description;
+		this.Price = price;
+		this.Date = date;
+		this.Path = path;
+
 	}
 	
 	public Long getProduct_id() {
@@ -99,12 +113,34 @@ public class Product {
 	public void setPath(int path) {
 		Path = path;
 	}
+	
+	
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Set<Color> getColors() {
+		return colors;
+	}
+
+	public void setColors(Set<Color> colors) {
+		this.colors = colors;
+	}
 
 	@Override
 	public String toString() {
-		return "Product [Product_id=" + Product_id + ", Product_Nam=" + Product_Name + ", Description=" + Desc
-				+ ", Price=" + Price + ", Date=" + Date + ", Path=" + Path + "]";
+		return "Product [Product_id=" + Product_id + ", Product_Name=" + Product_Name + ", Desc=" + Desc + ", Price="
+				+ Price + ", Date=" + Date + ", Path=" + Path + ", colors=" + colors + ", brand=" + brand + "]";
 	}
+
+	
+
+	
 
 	
 	

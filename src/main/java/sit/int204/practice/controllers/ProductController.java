@@ -17,13 +17,14 @@ import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 
 import java.util.List;
-
+import sit.int204.practice.repositories.*;
 
 @CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 public class ProductController {
 	@Autowired
 	ProductRepository productrepository;
+
 	
 	 @GetMapping("/Product/{product_id}")
 	    public Product showProduct(@PathVariable long product_id) {
@@ -57,7 +58,7 @@ public class ProductController {
 	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 	   
 		 Product _product = productrepository.save(new Product(product.getProduct_id(),product.getProduct_Name(),product.getDescription(),product.getPrice(),product.getDate(),product.getPath()));
-	      return new ResponseEntity<>(_product, HttpStatus.CREATED);
+		 return new ResponseEntity<>(_product, HttpStatus.CREATED);
 	    
 	  }
 	 
