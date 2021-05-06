@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import sit.int204.practice.models.Brand;
+import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 
@@ -55,9 +57,8 @@ public class ProductController {
 	 }
 	 
 	 @PostMapping("/Product")
-	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-	   
-		 Product _product = productrepository.save(new Product(product.getProduct_id(),product.getProduct_Name(),product.getDescription(),product.getPrice(),product.getDate(),product.getPath()));
+	  public ResponseEntity<Product> createProduct(@RequestBody Product product ) {
+		 Product _product = productrepository.save(product);
 		 return new ResponseEntity<>(_product, HttpStatus.CREATED);
 	    
 	  }

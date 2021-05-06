@@ -48,7 +48,7 @@ public class Brand {
 	}
 
 	public void setBrand_id(Long brand_id) {
-		id = brand_id;
+		this.id = brand_id;
 	}
 
 	public String getBrand_Name() {
@@ -56,7 +56,7 @@ public class Brand {
 	}
 
 	public void setBrand_Name(String brand_Name) {
-		Brand_Name = brand_Name;
+		this.Brand_Name = brand_Name;
 	}
 
 	
