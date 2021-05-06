@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import antlr.StringUtils;
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 
+import java.awt.PageAttributes.MediaType;
+import java.io.IOException;
 import java.util.List;
 import sit.int204.practice.repositories.*;
 
@@ -38,7 +41,7 @@ public class ProductController {
 	 
 	 @GetMapping("/Product")
 	    public List<Product> allProduct() {
-	        return productrepository.findAll(PageRequest.of(0,12)).getContent();
+	        return productrepository.findAll(PageRequest.of(0,24)).getContent();
 	    }
 	 @DeleteMapping("/Product/delete/{product_id}")
 	    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable long product_id) {
@@ -66,7 +69,18 @@ public class ProductController {
 	    
 	  }
 	 	
+	 @PostMapping(value = "/users/save")
+	    public ResponseEntity<Product> saveUser(@RequestParam("file") Product product,
+	            @RequestParam("image") MultipartFile file) throws IOException {
+	         
+	        String fileName = file.getOriginalFilename();
+	        
+	        product.setPath(fileName);
+	         
+	        Product savedUser = productrepository.save(product);
 	 
+	        return new ResponseEntity<>(savedUser,HttpStatus.OK);
+	    }
 	
 	
 	

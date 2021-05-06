@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Color")
 public class Color {
-	@Id
+	@Id	
 	private Long Color_id;
 	
 	@Column (name = "Color_Name")
