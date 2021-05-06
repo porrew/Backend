@@ -13,11 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Brand")
-
 public class Brand {
 	
 
@@ -28,14 +28,19 @@ public class Brand {
 	
 	@Column (name = "Brand_Name")
 	private String Brand_Name;
-		
+	
+	@OneToMany(mappedBy="brand")
+	@JsonBackReference
+	private List<Product> product;
+	
+	
 	public Brand() {
 		
 	}
 	
-	public Brand(Long brand_id, String brand_Name) {
-		id = brand_id;
-		Brand_Name = brand_Name;
+	public Brand(Long id, String brand_Name) {
+		this.id = id;
+		this.Brand_Name = brand_Name;
 	}
 
 	public Long getBrand_id() {
@@ -56,6 +61,14 @@ public class Brand {
 
 	
 
+
+	public List<Product> getProduct() {
+		return product;
+	}
+
+	public void setProduct(List<Product> product) {
+		this.product = product;
+	}
 
 	@Override
 	public String toString() {

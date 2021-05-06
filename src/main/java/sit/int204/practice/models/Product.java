@@ -1,11 +1,14 @@
 package sit.int204.practice.models;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -14,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.JoinColumn;
 
@@ -22,6 +24,7 @@ import javax.persistence.JoinColumn;
 @Table(name = "Product")
 public class Product {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "Product_id")
 	private Long Product_id;
 	
@@ -38,32 +41,31 @@ public class Product {
 	private String Date;
 	
 	@Column (name = "Path")
-	private int Path;
+	private String Path;
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "Have",
 		joinColumns = { @JoinColumn(name = "Product_Product_id")},
 		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})
-	private Set<Color> colors = new HashSet<>();
+	private List<Color> colors ;
 	
-	 @OneToOne(cascade =  CascadeType.PERSIST) 
+	 @ManyToOne
 	 @JoinColumn(name= "Brand_Brand_Id")
-	private Brand brand;
+	 private Brand brand;
 
 	
 	public Product () {
 		
 	}
 	
-	public Product(Long product_id, String product_Name, String description, int price, String date, int path) {
+	public Product(Long product_id, String product_Name, String description, int price, String date, String path) {
 		this.Product_id = product_id;
 		this.Product_Name = product_Name;
 		this.Desc = description;
 		this.Price = price;
 		this.Date = date;
 		this.Path = path;
-
 	}
 	
 	public Long getProduct_id() {
@@ -106,11 +108,11 @@ public class Product {
 		Date = date;
 	}
 
-	public int getPath() {
+	public String getPath() {
 		return Path;
 	}
 
-	public void setPath(int path) {
+	public void setPath(String path) {
 		Path = path;
 	}
 	
@@ -122,11 +124,11 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public Set<Color> getColors() {
+	public List<Color> getColors() {
 		return colors;
 	}
 
-	public void setColors(Set<Color> colors) {
+	public void setColors(List<Color> colors) {
 		this.colors = colors;
 	}
 
