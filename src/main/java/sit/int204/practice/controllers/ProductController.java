@@ -1,5 +1,6 @@
 package sit.int204.practice.controllers;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import antlr.StringUtils;
@@ -27,7 +30,12 @@ import sit.int204.practice.repositories.ProductRepository;
 import sit.int204.service.FileUploadUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import sit.int204.practice.repositories.*;
 import org.springframework.http.MediaType;
 
@@ -42,6 +50,14 @@ public class ProductController {
 	    public Product showProduct(@PathVariable long product_id) {
 	        return productrepository.findById(product_id).orElse(null);
 	    }
+	 
+//	 @GetMapping("/files/{filename:.+}")
+//	  @ResponseBody
+//	  public ResponseEntity<Resource> getFile(@PathVariable String path) {
+//	    Resource file = storageService.load(path);
+//	    return ResponseEntity.ok()
+//	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//	  }
 	 
 	 @GetMapping("/Product")
 	    public List<Product> allProduct() {
@@ -83,11 +99,9 @@ public class ProductController {
 	        
 	        String uploadDir = "target/image/" + savedUser.getProduct_id();
 	        
-	        FileUploadUtil.saveFile(uploadDir, fileName, file);
-	        
+	        FileUploadUtil.saveFile(uploadDir, fileName, file);    
 	        return new ResponseEntity<>(savedUser,HttpStatus.OK);
-	        
-	        
+
 	    }
 	 
 	 

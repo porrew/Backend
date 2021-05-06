@@ -17,12 +17,12 @@ Work flow
   >   - [x] Add Controller DEL
   >   - [x] Add Controller PUT
   >   - [x] Add Controller POST
-  >   - [ ] Make new entity for new DB
-  >   - [ ] Many-to-Many thing idk
-  >   - [ ] Config new DB
-  >   - [ ] Upload image
+  >   - [x] Make new entity for new DB
+  >   - [x] Many-to-Many thing idk
+  >   - [x] Config new DB
+  >   - [x] Upload image
   >   - [ ] Download image
-  >   - [ ] Test out new Model controller repository database
+  >   - [x] Test out new Model controller repository database
   >   - [ ] Add Exception
   >   - [ ] Working with frontend 
   >   - [ ] Deploy on docker n stuf
