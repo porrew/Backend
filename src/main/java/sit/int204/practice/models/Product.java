@@ -44,7 +44,7 @@ public class Product {
 	private String Path;
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name = "Have",
 		joinColumns = { @JoinColumn(name = "Product_Product_id")},
 		inverseJoinColumns = { @JoinColumn (name = "Color_Color_id")})

@@ -19,7 +19,6 @@ import sit.int204.practice.models.Product;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 public class BrandController {
 	@Autowired
@@ -33,12 +32,12 @@ public class BrandController {
 	    public List<Brand> allBrand() {
 	        return brandrepository.findAll(PageRequest.of(0,12)).getContent();
 	    }
-	 @PostMapping("/Brand")
-	  public ResponseEntity<Brand> createBrand(@RequestBody Brand brand) {
-	   
-		 Brand _brand = brandrepository.save(new Brand(brand.getBrand_id(),brand.getBrand_Name()));
-		 return new ResponseEntity<>(_brand, HttpStatus.CREATED);
-	    
-	  }
-	 
+//	 @PostMapping("/Brand")
+//	  public ResponseEntity<Brand> createBrand(@RequestBody Brand brand) {
+//	   
+//		 Brand _brand = brandrepository.save(new Brand(brand.getBrand_id(),brand.getBrand_Name()));
+//		 return new ResponseEntity<>(_brand, HttpStatus.CREATED);
+//	    
+//	  }
+//	 
 }

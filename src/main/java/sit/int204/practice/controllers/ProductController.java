@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
@@ -57,12 +60,12 @@ public class ProductController {
 	 }
 	 
 	 @PostMapping("/Product")
-	  public ResponseEntity<Product> createProduct(@RequestBody Product product ) {
+	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		 Product _product = productrepository.save(product);
 		 return new ResponseEntity<>(_product, HttpStatus.CREATED);
 	    
 	  }
-	 
+	 	
 	 
 	
 	
