@@ -21,7 +21,7 @@ Work flow
   >   - [x] Many-to-Many thing idk
   >   - [x] Config new DB
   >   - [x] Upload image
-  >   - [ ] Download image
+  >   - [x] Download image
   >   - [x] Test out new Model controller repository database
   >   - [ ] Add Exception
   >   - [ ] Working with frontend 
@@ -34,4 +34,6 @@ Work flow
   >   - [ ] Demo + Presentation
   >   - [ ] shitpost on markdown
 
-Warning [Horse running at full speed](https://files.catbox.moe/7qzzcm.webm)
+Warning Loud music[Horse running at full speed](https://files.catbox.moe/7qzzcm.webm)
+![VeryHors](https://files.catbox.moe/ftmb5a.gif)
+![Veryuma](https://files.catbox.moe/omsonw.gif)
