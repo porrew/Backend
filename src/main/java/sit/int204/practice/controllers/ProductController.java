@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import antlr.StringUtils;
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
@@ -52,18 +51,11 @@ public class ProductController {
 	        return productrepository.findById(product_id).orElse(null);
 	    }
 	 
-//	 @GetMapping("/files/{filename:.+}")
-//	  @ResponseBody
-//	  public ResponseEntity<Resource> getFile(@PathVariable String path) {
-//	    Resource file = storageService.load(path);
-//	    return ResponseEntity.ok()
-//	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//	  }
-//	 
+
 	  @RequestMapping(value = "/Product/image/{product_id}/{path}", method = RequestMethod.GET,produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
 	  
 	    public ResponseEntity<InputStreamResource> getImage(@PathVariable String path,@PathVariable long product_id) throws IOException {
-	        var imgFile = new ClassPathResource("/image/" + product_id+ "/" +path);
+	        var imgFile = new ClassPathResource("/image/" + product_id + "/" + path);
 	        return  ResponseEntity
 	                .ok()
 	                .body(new InputStreamResource(imgFile.getInputStream()));
