@@ -113,7 +113,7 @@ public class Product {
 	}
 	
 	public String getPhotosImagePath() {
-        return "target/image/" + Product_id + "/" + Path;
+        return "src/main/resources/image/" + Product_id + "/" + Path;
     }
 
 	public void setPath(String path) {

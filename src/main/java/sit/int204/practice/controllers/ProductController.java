@@ -2,7 +2,8 @@ package sit.int204.practice.controllers;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,11 +59,21 @@ public class ProductController {
 //	    return ResponseEntity.ok()
 //	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 //	  }
-	 
+//	 
+	  @RequestMapping(value = "/Product/image/{product_id}/{path}", method = RequestMethod.GET,produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+	  
+	    public ResponseEntity<InputStreamResource> getImage(@PathVariable String path,@PathVariable long product_id) throws IOException {
+	        var imgFile = new ClassPathResource("/image/" + product_id+ "/" +path);
+	        return  ResponseEntity
+	                .ok()
+	                .body(new InputStreamResource(imgFile.getInputStream()));
+	    }
+	  
 	 @GetMapping("/Product")
 	    public List<Product> allProduct() {
 	        return productrepository.findAll(PageRequest.of(0,24)).getContent();
 	    }
+	 
 	 @DeleteMapping("/Product/delete/{product_id}")
 	    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable long product_id) {
 		 productrepository.deleteById(product_id);
@@ -97,7 +108,7 @@ public class ProductController {
 	        product.setPath(fileName);
 	        Product savedUser = productrepository.save(product);
 	        
-	        String uploadDir = "target/image/" + savedUser.getProduct_id();
+	        String uploadDir = "src/main/resources/image/" + savedUser.getProduct_id();
 	        
 	        FileUploadUtil.saveFile(uploadDir, fileName, file);    
 	        return new ResponseEntity<>(savedUser,HttpStatus.OK);
