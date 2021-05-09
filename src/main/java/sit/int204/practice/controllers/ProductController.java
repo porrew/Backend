@@ -88,12 +88,12 @@ public class ProductController {
 		 return ResponseEntity.ok(updateid);	    
 	 }
 	 
-	 @PostMapping("/Product")
-	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-		 Product _product = productrepository.save(product);
-		 return new ResponseEntity<>(_product, HttpStatus.CREATED);
-	    
-	  }
+//	 @PostMapping("/Product")
+//	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+//		 Product _product = productrepository.save(product);
+//		 return new ResponseEntity<>(_product, HttpStatus.CREATED);
+//	    
+//	  }
 	 	
 	 @PostMapping(value = "/Product/multi"
 //			 , consumes = MediaType.MULTIPART_FORM_DATA_VALUE
