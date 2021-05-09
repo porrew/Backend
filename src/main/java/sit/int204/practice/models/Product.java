@@ -29,7 +29,7 @@ public class Product {
 	private Long Product_id;
 	
 	@Column (name = "Product_Name")
-	private String Product_Name;
+	private String name;
 	
 	@Column (name = "`Description`")
 	private String Desc;
@@ -59,9 +59,9 @@ public class Product {
 		
 	}
 	
-	public Product(Long product_id, String product_Name, String description, int price, String date, String path) {
+	public Product(Long product_id, String names, String description, int price, String date, String path) {
 		this.Product_id = product_id;
-		this.Product_Name = product_Name;
+		this.name = names;
 		this.Desc = description;
 		this.Price = price;
 		this.Date = date;
@@ -77,11 +77,11 @@ public class Product {
 	}
 
 	public String getProduct_Name() {
-		return Product_Name;
+		return name;
 	}
 
-	public void setProduct_Name(String product_Name) {
-		Product_Name = product_Name;
+	public void setProduct_Name(String names) {
+		name = names;
 	}
 
 	public String getDescription() {
@@ -138,7 +138,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [Product_id=" + Product_id + ", Product_Name=" + Product_Name + ", Desc=" + Desc + ", Price="
+		return "Product [Product_id=" + Product_id + ", Product_Name=" + name + ", Desc=" + Desc + ", Price="
 				+ Price + ", Date=" + Date + ", Path=" + Path + ", colors=" + colors + ", brand=" + brand + "]";
 	}
 

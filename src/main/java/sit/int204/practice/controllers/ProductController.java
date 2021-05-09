@@ -23,12 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 import sit.int204.service.FileUploadUtil;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -92,18 +95,21 @@ public class ProductController {
 	    
 	  }
 	 	
-	 @PostMapping(value = "/Product/multi", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	 @PostMapping(value = "/Product/multi"
+//			 , consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+			 )
 	    public ResponseEntity<Product> saveUser(
-	    		@RequestParam(value = "file")MultipartFile file,
-	            @RequestPart Product product) throws IOException {
+	    		@RequestPart(value = "file",required=false)MultipartFile file,
+	            @RequestPart(value = "product") String product_
+	    		) throws IOException {
+		 	ObjectMapper map = new ObjectMapper();
+		 	Product prod = map.readValue(product_, Product.class);
 	        String fileName = file.getOriginalFilename();
-	        product.setPath(fileName);
-	        Product savedUser = productrepository.save(product);
+	        Product savedProd = productrepository.save(prod);  
+	        String uploadDir = "src/main/resources/image/" + savedProd.getProduct_id();    
+	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
 	        
-	        String uploadDir = "src/main/resources/image/" + savedUser.getProduct_id();
-	        
-	        FileUploadUtil.saveFile(uploadDir, fileName, file);    
-	        return new ResponseEntity<>(savedUser,HttpStatus.OK);
+	        return new ResponseEntity<>(savedProd, HttpStatus.CREATED);
 
 	    }
 	 
