@@ -68,7 +68,7 @@ public class ProductController {
 	                .ok()
 	                .body(new InputStreamResource(imgFile.getInputStream()));}
 		  catch (Exception e) {
-			  throw new IOException("Cant find the image");
+			  throw new IOException("Could not save Data");
 		}
 	    }
 	  
@@ -78,36 +78,50 @@ public class ProductController {
 	    }
 	 
 	 @DeleteMapping("/Product/delete/{product_id}")
-	    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable long product_id) throws IOException {
-		 try {
+	    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable long product_id) {
 		 productrepository.deleteById(product_id);
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-		 catch (Exception e) {
-			 throw new IOException("Could not save Date");
-		}
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
 	 
 	 @PutMapping("/Product/{product_id}")
-	 	public ResponseEntity<Product> replaceProduct(
-	 			@RequestBody Product newproduct,
-	 			@RequestPart(value = "product") String product_,
-	 			@PathVariable(value = "product_id") long product_id) 
-	 					throws IOException {
+	 	public ResponseEntity<Product> replaceProduct(@RequestBody Product newproduct,
+	 			@PathVariable(value = "product_id") long product_id)  throws IOException {
 		 try {
-		 ObjectMapper map = new ObjectMapper();
-		 Product prod = map.readValue(product_, Product.class);
 		 Product product = productrepository.findById(product_id).orElseThrow(); 
 		 product.setProduct_Name(newproduct.getProduct_Name());
 		 product.setDescription(newproduct.getDescription());
 		 product.setPrice(newproduct.getPrice());
 		 product.setDate(newproduct.getDate());
 		 product.setPath(newproduct.getPath());
-		 final Product updateid = productrepository.save(prod);
+		 final Product updateid = productrepository.save(product);
 		 return ResponseEntity.ok(updateid);}	
 		 catch (Exception e) {
 			 throw new IOException("Could not save Data");
 		}
 	 }
+	 
+//	 @PutMapping("/Product/{product_id}")
+//	 	public ResponseEntity<Product> replaceProduct(
+//	 			@RequestPart(value = "file",required=false)MultipartFile file,
+//	 			@RequestPart Product newproduct,
+//	 			@RequestPart(value = "product") String product_,
+//	 			@PathVariable(value = "product_id") long product_id) 
+//	 					throws IOException {
+//		 try {
+//		 ObjectMapper map = new ObjectMapper();
+//		 Product prod = map.readValue(product_, Product.class);
+//		 Product product = productrepository.findById(product_id).orElseThrow(); 
+//		 product.setProduct_Name(newproduct.getProduct_Name());
+//		 product.setDescription(newproduct.getDescription());
+//		 product.setPrice(newproduct.getPrice());
+//		 product.setDate(newproduct.getDate());
+//		 product.setPath(newproduct.getPath());
+//		 final Product updateid = productrepository.save(product);
+//		 return ResponseEntity.ok(updateid);}	
+//		 catch (Exception e) {
+//			 throw new IOException("Could not save Data");
+//		}
+//	 }
 	 
 //	 @PostMapping("/Product")
 //	  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -132,12 +146,12 @@ public class ProductController {
 	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
 	        return new ResponseEntity<>(savedProd, HttpStatus.CREATED);}
 	        catch (Exception e) {
-				  throw new IOException("Could not save Data");
+	        	throw new IOException("Could not save Data");
 			}
 
 	    }
 	 
-	 @PutMapping(value = "/Product/multi/{product_id}"
+	 @PutMapping(value = "/Product/multi"
 			 )
 	    public ResponseEntity<Product> putUser(
 	    		@RequestPart(value = "file",required=false)MultipartFile file,
@@ -148,19 +162,19 @@ public class ProductController {
 		 	ObjectMapper map = new ObjectMapper();
 		 	Product prod = map.readValue(product_, Product.class);
 	        String fileName = file.getOriginalFilename();
-	        Product product = productrepository.findById(product_id).orElseThrow(); 
 	        Product savedProd = productrepository.save(prod);  
 	        String uploadDir = "src/main/resources/image/" + savedProd.getProduct_id();    
 	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
+	        Product product = productrepository.findById(product_id).orElseThrow(); 
 			product.setProduct_Name(savedProd.getProduct_Name());
 			product.setDescription(savedProd.getDescription());
 			product.setPrice(savedProd.getPrice());
 			product.setDate(savedProd.getDate());
 			product.setPath(savedProd.getPath());
 			final Product updateid = productrepository.save(product);
-	        return ResponseEntity.ok(updateid);}
+	        return new ResponseEntity<>(updateid, HttpStatus.CREATED);}
 	        catch (Exception e) {
-	        	throw new IOException("Could not save image");
+	        	throw new IOException("Could not save Data");
 			}
 
 	    }
