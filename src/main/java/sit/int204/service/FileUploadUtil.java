@@ -2,10 +2,6 @@ package sit.int204.service;
 import java.io.*;
 import java.nio.file.*;
 
-import javax.annotation.Resource;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {

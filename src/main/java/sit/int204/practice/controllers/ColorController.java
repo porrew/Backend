@@ -11,6 +11,7 @@ import sit.int204.practice.models.Color;
 
 import java.util.List;
 @CrossOrigin(origins = {"http://52.253.91.116"})
+//@CrossOrigin(origins = {"http://localhost:8080/"}) 
 @RestController
 public class ColorController {
 	@Autowired

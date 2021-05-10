@@ -1,6 +1,6 @@
 package sit.int204.practice.controllers;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -16,33 +16,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-import sit.int204.practice.models.Brand;
-import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
 import sit.int204.practice.repositories.ProductRepository;
 import sit.int204.service.FileUploadUtil;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import sit.int204.practice.repositories.*;
 import org.springframework.http.MediaType;
-
+//@CrossOrigin(origins = {"http://localhost:8080/"}) 
 @CrossOrigin(origins = {"http://52.253.91.116"})
 @RestController
 public class ProductController {
@@ -148,8 +132,8 @@ public class ProductController {
 	        catch (Exception e) {
 	        	throw new IOException("Could not save Data");
 			}
-
-	    }
+	 }
+	    
 	 
 	 @PutMapping(value = "/Product/multi"
 			 )
