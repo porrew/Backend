@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import sit.int204.practice.exceptions.ExceptionResponse;
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
@@ -51,17 +52,25 @@ public class ProductController {
 	
 	 @GetMapping("/Product/{product_id}")
 	    public Product showProduct(@PathVariable long product_id) {
+		 try {
 	        return productrepository.findById(product_id).orElse(null);
+	        } catch (Exception e) {
+	        	return null;
+			}
 	    }
 	 
 
 	  @RequestMapping(value = "/Product/image/{product_id}/{path}", method = RequestMethod.GET,produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
 	  
 	    public ResponseEntity<InputStreamResource> getImage(@PathVariable String path,@PathVariable long product_id) throws IOException {
+		  try {
 	        var imgFile = new ClassPathResource("/image/" + product_id + "/" + path);
 	        return  ResponseEntity
 	                .ok()
-	                .body(new InputStreamResource(imgFile.getInputStream()));
+	                .body(new InputStreamResource(imgFile.getInputStream()));}
+		  catch (Exception e) {
+			  return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
 	    }
 	  
 	 @GetMapping("/Product")
@@ -108,7 +117,6 @@ public class ProductController {
 	        Product savedProd = productrepository.save(prod);  
 	        String uploadDir = "src/main/resources/image/" + savedProd.getProduct_id();    
 	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
-	        
 	        return new ResponseEntity<>(savedProd, HttpStatus.CREATED);
 
 	    }
