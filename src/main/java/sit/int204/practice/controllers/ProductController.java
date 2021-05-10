@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import sit.int204.practice.exceptions.ExceptionResponse;
+
 import sit.int204.practice.models.Brand;
 import sit.int204.practice.models.Color;
 import sit.int204.practice.models.Product;
@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import sit.int204.practice.repositories.*;
 import org.springframework.http.MediaType;
 
-@CrossOrigin(origins = {"http://localhost:8080"})
+@CrossOrigin(origins = {"http://52.253.91.116"})
 @RestController
 public class ProductController {
 	@Autowired
@@ -52,11 +52,10 @@ public class ProductController {
 	
 	 @GetMapping("/Product/{product_id}")
 	    public Product showProduct(@PathVariable long product_id) {
-		 try {
+		
 	        return productrepository.findById(product_id).orElse(null);
-	        } catch (Exception e) {
-	        	return null;
-			}
+	        
+		
 	    }
 	 
 
@@ -69,7 +68,7 @@ public class ProductController {
 	                .ok()
 	                .body(new InputStreamResource(imgFile.getInputStream()));}
 		  catch (Exception e) {
-			  return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	    }
 	  
@@ -85,8 +84,8 @@ public class ProductController {
 	    }
 	 
 	 @PutMapping("/Product/{product_id}")
-	 	public ResponseEntity<Product> replaceProduct(@RequestBody Product newproduct, @PathVariable(value = "product_id") long product_id) {
-		
+	 	public ResponseEntity<Product> replaceProduct(@RequestBody Product newproduct, @PathVariable(value = "product_id") long product_id)  throws IOException {
+		 try {
 		 Product product = productrepository.findById(product_id).orElseThrow(); 
 		 product.setProduct_Name(newproduct.getProduct_Name());
 		 product.setDescription(newproduct.getDescription());
@@ -94,7 +93,10 @@ public class ProductController {
 		 product.setDate(newproduct.getDate());
 		 product.setPath(newproduct.getPath());
 		 final Product updateid = productrepository.save(product);
-		 return ResponseEntity.ok(updateid);	    
+		 return ResponseEntity.ok(updateid);}	
+		 catch (Exception e) {
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	 }
 	 
 //	 @PostMapping("/Product")
@@ -111,16 +113,47 @@ public class ProductController {
 	    		@RequestPart(value = "file",required=false)MultipartFile file,
 	            @RequestPart(value = "product") String product_
 	    		) throws IOException {
+		 try {
 		 	ObjectMapper map = new ObjectMapper();
 		 	Product prod = map.readValue(product_, Product.class);
 	        String fileName = file.getOriginalFilename();
 	        Product savedProd = productrepository.save(prod);  
 	        String uploadDir = "src/main/resources/image/" + savedProd.getProduct_id();    
 	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
-	        return new ResponseEntity<>(savedProd, HttpStatus.CREATED);
+	        return new ResponseEntity<>(savedProd, HttpStatus.CREATED);}
+	        catch (Exception e) {
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 
 	    }
 	 
+	 @PutMapping(value = "/Product/multi/{product_id}"
+			 )
+	    public ResponseEntity<Product> putUser(
+	    		@RequestPart(value = "file",required=false)MultipartFile file,
+	            @RequestPart(value = "product") String product_, 
+	            @PathVariable(value = "product_id") long product_id
+	    		) throws IOException {
+		 try {
+		 	ObjectMapper map = new ObjectMapper();
+		 	Product prod = map.readValue(product_, Product.class);
+	        String fileName = file.getOriginalFilename();
+	        Product savedProd = productrepository.save(prod);  
+	        String uploadDir = "src/main/resources/image/" + savedProd.getProduct_id();    
+	        FileUploadUtil.saveFile(uploadDir, fileName, file); 
+	        Product product = productrepository.findById(product_id).orElseThrow(); 
+			product.setProduct_Name(savedProd.getProduct_Name());
+			product.setDescription(savedProd.getDescription());
+			product.setPrice(savedProd.getPrice());
+			product.setDate(savedProd.getDate());
+			product.setPath(savedProd.getPath());
+			final Product updateid = productrepository.save(product);
+	        return ResponseEntity.ok(updateid);}
+	        catch (Exception e) {
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+	    }
 	 
 	
 	
