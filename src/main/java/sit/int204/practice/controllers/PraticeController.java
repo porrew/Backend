@@ -32,7 +32,7 @@ public class PraticeController {
 	 
 	 @GetMapping("/Pratice")
 	    public List<Pratice> allPratice() {
-	        return praticerepository.findAll(PageRequest.of(0,12)).getContent();
+	        return praticerepository.findAll(PageRequest.of(0,100)).getContent();
 	    }
 	 @DeleteMapping("/Pratice/delete/{code}")
 	    public ResponseEntity<HttpStatus> delete(@PathVariable String code) {
